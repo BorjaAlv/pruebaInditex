@@ -52,7 +52,7 @@ Se han generado además, complementado la estrategia API FIRST excepciones custo
 Siguiendo la lógica ligera y efectiva de la prueba se han obviado algunas prácticas comunes que se aplicarían a un entorno de producción:
 + Aplicar el patrón CQRS.
 + Incluir un gestor de base de datos (PostgreSQL, Mysql, MongoDB...) que a su vez se gestionaría mediante una herramienta de versionado/migraciones como Liquibase o Flyway.
-+ Incluir Docker para levantar la aplicación, base de datos y test containers que se utilizarían tanto en los test E2E como en posibles test de integración. Como se ha recomendado utilizar docker, pero a la vez usar una base datos en memoria h2, se ha creado la base para poder arrancar la aplicación mediante docker.
++ Una vez tengamos un gestor de base de datos se amplificaría la utilidad de docker permitiendonos levantar distintos test containers o la base de datos que se utilizarían tanto para levantar la aplicación contra una base de datos en docker, para los test E2E de karate o para posibles futuros test de integración. Como se ha recomendado utilizar docker, pero a la vez usar una base datos en memoria h2, únicamente se ha configurado docker para levantar la aplicación.
 
 ## 🚀 Arrancar la aplicación
 
