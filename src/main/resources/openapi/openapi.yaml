@@ -1,0 +1,154 @@
+openapi: 3.0.3
+
+info:
+  title: Prices API
+  description: API to retrieve the current price for a product, brand and date.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+    description: Local server
+
+tags:
+  - name: Prices
+    description: Price query operations
+
+paths:
+  /api/v1/prices:
+    get:
+      tags:
+        - Prices
+      operationId: getApplicablePrice
+      summary: Get applicable price
+      description: Returns the price for a product and brand at a given application date.
+      parameters:
+        - name: applicationDate
+          in: query
+          required: true
+          description: Date and time when the price must be applied.
+          schema:
+            type: string
+            format: date-time
+            example: "2020-06-14T16:00:00"
+        - name: productId
+          in: query
+          required: true
+          description: Product identifier.
+          schema:
+            type: integer
+            format: int64
+            example: 35455
+        - name: brandId
+          in: query
+          required: true
+          description: Brand identifier. For example, 1 means ZARA.
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      responses:
+        "200":
+          description: Applicable price found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PriceResponse"
+              example:
+                productId: 35455
+                brandId: 1
+                priceList: 2
+                startDate: "2020-06-14T15:00:00"
+                endDate: "2020-06-14T18:30:00"
+                price: 25.45
+                currency: EUR
+        "400":
+          description: Invalid request parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                status: 400
+                error: Bad Request
+                message: Invalid request parameters
+                path: /api/v1/prices
+        "404":
+          description: Applicable price not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              example:
+                status: 404
+                error: Not Found
+                message: Applicable price not found
+                path: /api/v1/prices
+        "500":
+          description: Unexpected internal error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+  schemas:
+    PriceResponse:
+      type: object
+      required:
+        - productId
+        - brandId
+        - priceList
+        - startDate
+        - endDate
+        - price
+        - currency
+      properties:
+        productId:
+          type: integer
+          format: int64
+          example: 35455
+        brandId:
+          type: integer
+          format: int64
+          example: 1
+        priceList:
+          type: integer
+          format: int32
+          example: 2
+        startDate:
+          type: string
+          format: date-time
+          example: "2020-06-14T15:00:00"
+        endDate:
+          type: string
+          format: date-time
+          example: "2020-06-14T18:30:00"
+        price:
+          type: number
+          format: double
+          example: 25.45
+        currency:
+          type: string
+          example: EUR
+
+    ErrorResponse:
+      type: object
+      required:
+        - status
+        - error
+        - message
+        - path
+      properties:
+        status:
+          type: integer
+          format: int32
+          example: 404
+        error:
+          type: string
+          example: Not Found
+        message:
+          type: string
+          example: Applicable price not found
+        path:
+          type: string
+          example: /api/v1/prices
