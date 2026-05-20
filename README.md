@@ -56,8 +56,12 @@ Siguiendo la lógica ligera y efectiva de la prueba se han obviado algunas prác
 
 ## 🚀 Arrancar la aplicación
 
-Para arrancar la aplicación bastará con arrancar springboot a través del wrapper de maven.
+Para arrancar la aplicación podemos hacerlo únicamente arrancadola con maven y spring boot.
 
 + mvnw spring-boot:run
+
+En caso de que queramos arrancarla con docker, lo haríamos mediante el siguiente comando:
+
++ docker compose up --build
 
 ---
